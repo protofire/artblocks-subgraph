@@ -10,7 +10,8 @@ import { transfer } from "./transfer"
 import {
 	tokens,
 	accounts,
-	blocks
+	blocks,
+	transactionsMeta
 } from "../modules";
 
 
@@ -47,6 +48,16 @@ export function handleApproval(event: Approval): void {
 	let txHash = event.transaction.hash
 	let timestamp = event.block.timestamp
 
+	let meta = transactionsMeta.getOrCreateTransactionMeta(
+		txHash.toHexString(),
+		blockId,
+		txHash,
+		event.transaction.from,
+		event.transaction.gasUsed,
+		event.transaction.gasPrice,
+	)
+	meta.save()
+
 	let block = blocks.getOrCreateBlock(blockId, timestamp, blockNumber)
 	block.save()
 
@@ -63,6 +74,23 @@ export function handleApproval(event: Approval): void {
 export function handleApprovalForAll(event: ApprovalForAll): void {
 	let ownerAddress = event.params.owner
 	let operatorAddress = event.params.operator
+	let blockNumber = event.block.number
+	let blockId = blockNumber.toString()
+	let txHash = event.transaction.hash
+	let timestamp = event.block.timestamp
+
+	let meta = transactionsMeta.getOrCreateTransactionMeta(
+		txHash.toHexString(),
+		blockId,
+		txHash,
+		event.transaction.from,
+		event.transaction.gasUsed,
+		event.transaction.gasPrice,
+	)
+	meta.save()
+
+	let block = blocks.getOrCreateBlock(blockId, timestamp, blockNumber)
+	block.save()
 
 	let owner = accounts.getOrCreateAccount(ownerAddress)
 	owner.save()
