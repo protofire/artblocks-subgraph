@@ -5,11 +5,11 @@ schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
-    name: autoglyphs
+    name: artblocks
     network: mainnet
     source:
       address: "0xa7d8d9ef8D8Ce8992Df33D8b8CF4Aebabd5bD270"
-      abi: autoglyphs
+      abi: artblocks
       startBlock: 11437151
     mapping:
       kind: ethereum/events
