@@ -1,0 +1,30 @@
+specVersion: 0.0.2
+description: Subgraph for artblocks
+repository: https://github.com/protofire/artblocks-subgraph
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: autoglyphs
+    network: mainnet
+    source:
+      address: "0xa7d8d9ef8D8Ce8992Df33D8b8CF4Aebabd5bD270"
+      abi: autoglyphs
+      startBlock: 11437151
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Account
+      abis:
+        - name: artblocks
+          file: ./abis/artblocks.json
+      eventHandlers:
+        - event: Approval(indexed address,indexed address,indexed uint256)
+          handler: handleApproval
+        - event: ApprovalForAll(indexed address,indexed address,bool)
+          handler: handleApprovalForAll
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+      file: ./src/mapping.ts
