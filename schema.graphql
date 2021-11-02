@@ -54,6 +54,8 @@ interface Erc721Token {
 	"Current burned status"
 	burned: Boolean
 
+	"Token's related Collection"
+	collection: Collection!
 }
 
 type Token implements Erc721Token @entity{
@@ -73,12 +75,12 @@ type Token implements Erc721Token @entity{
 	burned: Boolean
 }
 
-type Collection {
+type Collection @entity {
 	"Internal ID used for indexation"
 	id: ID!
 
 	"Tokens minted for this collection"
-	tokens: [Token!]! derivedFrom(field: "collection")
+	tokens: [Token!]! @derivedFrom(field: "collection")
 }
 
 "A 721 holder account"
