@@ -1,4 +1,5 @@
-import { BigInt, log } from '@graphprotocol/graph-ts'
+import { ADDRESS_ZERO } from '@protofire/subgraph-toolkit'
+import { log } from '@graphprotocol/graph-ts'
 import { Token } from "../../../generated/schema";
 
 
@@ -26,14 +27,6 @@ export namespace tokens {
 		return token as Token
 	}
 
-	export function addUri(
-		tokenId: string, owner: string, uri: string
-	): Token {
-		let token = getOrCreateToken(tokenId, owner)
-		token.uri = uri
-		return token as Token
-	}
-
 	export function mintToken(
 		tokenId: string, owner: string
 	): Token {
@@ -47,6 +40,7 @@ export namespace tokens {
 	): Token {
 		let token = loadToken(tokenId)
 		token.burned = true
+		token.owner = ADDRESS_ZERO
 		return token as Token
 	}
 
