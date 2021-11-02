@@ -9,7 +9,9 @@ import { transfer } from "./transfer"
 
 import {
 	tokens,
-	accounts
+	accounts,
+	blocks,
+	transactionsMeta
 } from "../modules";
 
 
@@ -23,6 +25,9 @@ export function handleTransfer(event: Transfer): void {
 	let blockId = blockNumber.toString()
 	let txHash = event.transaction.hash
 	let timestamp = event.block.timestamp
+
+	let block = blocks.getOrCreateBlock(blockId, timestamp, blockNumber)
+	block.save()
 
 	if (from == ADDRESS_ZERO) {
 		transfer.handleMint(event.params.to, tokenId, timestamp, blockId)
@@ -38,6 +43,23 @@ export function handleApproval(event: Approval): void {
 	let tokenId = event.params.tokenId.toHex()
 	let ownerAddress = event.params.owner
 	let approvedAddress = event.params.approved
+	let blockNumber = event.block.number
+	let blockId = blockNumber.toString()
+	let txHash = event.transaction.hash
+	let timestamp = event.block.timestamp
+
+	let meta = transactionsMeta.getOrCreateTransactionMeta(
+		txHash.toHexString(),
+		blockId,
+		txHash,
+		event.transaction.from,
+		event.transaction.gasUsed,
+		event.transaction.gasPrice,
+	)
+	meta.save()
+
+	let block = blocks.getOrCreateBlock(blockId, timestamp, blockNumber)
+	block.save()
 
 	let approved = accounts.getOrCreateAccount(approvedAddress)
 	approved.save()
@@ -52,6 +74,23 @@ export function handleApproval(event: Approval): void {
 export function handleApprovalForAll(event: ApprovalForAll): void {
 	let ownerAddress = event.params.owner
 	let operatorAddress = event.params.operator
+	let blockNumber = event.block.number
+	let blockId = blockNumber.toString()
+	let txHash = event.transaction.hash
+	let timestamp = event.block.timestamp
+
+	let meta = transactionsMeta.getOrCreateTransactionMeta(
+		txHash.toHexString(),
+		blockId,
+		txHash,
+		event.transaction.from,
+		event.transaction.gasUsed,
+		event.transaction.gasPrice,
+	)
+	meta.save()
+
+	let block = blocks.getOrCreateBlock(blockId, timestamp, blockNumber)
+	block.save()
 
 	let owner = accounts.getOrCreateAccount(ownerAddress)
 	owner.save()
