@@ -1,6 +1,7 @@
 import { BigInt, Bytes } from '@graphprotocol/graph-ts'
 import {
 	accounts,
+	tokens
 } from "../modules";
 
 export namespace transfer {
@@ -8,6 +9,9 @@ export namespace transfer {
 	export function handleMint(to: Bytes, tokenId: string, timestamp: BigInt, blockId: string): void {
 		let account = accounts.getOrCreateAccount(to)
 		account.save()
+
+		let token = tokens.mintToken(tokenId, to.toHex())
+		token.save()
 	}
 
 
@@ -15,6 +19,9 @@ export namespace transfer {
 
 		let account = accounts.getOrCreateAccount(from)
 		account.save()
+
+		let token = tokens.burnToken(tokenId)
+		token.save()
 	}
 
 	export function handleRegularTransfer(from: Bytes, to: Bytes, tokenId: string, timestamp: BigInt, blockId: string): void {
@@ -24,6 +31,9 @@ export namespace transfer {
 
 		let buyer = accounts.getOrCreateAccount(to)
 		buyer.save()
+
+		let token = tokens.changeOwner(tokenId, buyer.id)
+		token.save()
 
 	}
 }
