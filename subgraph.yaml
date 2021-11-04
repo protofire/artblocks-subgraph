@@ -27,4 +27,7 @@ dataSources:
           handler: handleApprovalForAll
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
+        - event: Mint(indexed address,indexed uint256,indexed uint256)
+          handler: handleMint
+
       file: ./src/mappings/index.ts
