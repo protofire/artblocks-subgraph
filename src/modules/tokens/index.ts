@@ -56,4 +56,9 @@ export namespace tokens {
 		token.approval = approval
 		return token as Token
 	}
+	export function addCollection(tokenId: string, collectionId: string): Token {
+		let token = loadToken(tokenId)
+		token.collection = collectionId
+		return token as Token
+	}
 }

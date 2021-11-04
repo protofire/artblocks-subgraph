@@ -2,7 +2,8 @@ import { ADDRESS_ZERO } from '@protofire/subgraph-toolkit'
 import {
 	Approval,
 	ApprovalForAll,
-	Transfer
+	Transfer,
+	Mint
 } from "../../generated/artblocks/artblocks";
 
 import { transfer } from "./transfer"
@@ -11,10 +12,41 @@ import {
 	tokens,
 	accounts,
 	blocks,
-	transactionsMeta
+	transactionsMeta,
+	collections
 } from "../modules";
 
+export function handleMint(event: Mint) {
+	let blockNumber = event.block.number
+	let blockId = blockNumber.toString()
+	let txHash = event.transaction.hash
+	let timestamp = event.block.timestamp
 
+	let block = blocks.getOrCreateBlock(blockId, timestamp, blockNumber)
+	block.save()
+
+	let meta = transactionsMeta.getOrCreateTransactionMeta(
+		txHash.toHexString(),
+		blockId,
+		txHash,
+		event.transaction.from,
+		event.transaction.gasUsed,
+		event.transaction.gasPrice,
+	)
+	meta.save()
+
+	let to = event.params._to.toHex()
+	let tokenId = event.params._tokenId.toHex()
+	let collectionId = event.params._projectId.toHex()
+
+	let collection = collections.getOrCreateCollection(collectionId)
+	collection.save()
+
+	let token = tokens.addCollection(tokenId, collectionId)
+	token.owner = to
+	token.save()
+
+}
 
 export function handleTransfer(event: Transfer): void {
 
@@ -28,6 +60,16 @@ export function handleTransfer(event: Transfer): void {
 
 	let block = blocks.getOrCreateBlock(blockId, timestamp, blockNumber)
 	block.save()
+
+	let meta = transactionsMeta.getOrCreateTransactionMeta(
+		txHash.toHexString(),
+		blockId,
+		txHash,
+		event.transaction.from,
+		event.transaction.gasUsed,
+		event.transaction.gasPrice,
+	)
+	meta.save()
 
 	if (from == ADDRESS_ZERO) {
 		transfer.handleMint(event.params.to, tokenId, timestamp, blockId)
