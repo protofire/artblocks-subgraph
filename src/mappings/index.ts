@@ -16,7 +16,7 @@ import {
 	collections
 } from "../modules";
 
-export function handleMint(event: Mint) {
+export function handleMint(event: Mint): void {
 	let blockNumber = event.block.number
 	let blockId = blockNumber.toString()
 	let txHash = event.transaction.hash
@@ -30,7 +30,7 @@ export function handleMint(event: Mint) {
 		blockId,
 		txHash,
 		event.transaction.from,
-		event.transaction.gasUsed,
+		event.transaction.gasLimit,
 		event.transaction.gasPrice,
 	)
 	meta.save()
@@ -46,6 +46,12 @@ export function handleMint(event: Mint) {
 	token.owner = to
 	token.save()
 
+}
+
+
+export function handleTest(event: Transfer): void {
+	let token = tokens.mintToken(event.params.tokenId.toString(), event.params.to.toString())
+	token.save()
 }
 
 export function handleTransfer(event: Transfer): void {
@@ -66,7 +72,7 @@ export function handleTransfer(event: Transfer): void {
 		blockId,
 		txHash,
 		event.transaction.from,
-		event.transaction.gasUsed,
+		event.transaction.gasLimit,
 		event.transaction.gasPrice,
 	)
 	meta.save()
@@ -95,7 +101,7 @@ export function handleApproval(event: Approval): void {
 		blockId,
 		txHash,
 		event.transaction.from,
-		event.transaction.gasUsed,
+		event.transaction.gasLimit,
 		event.transaction.gasPrice,
 	)
 	meta.save()
@@ -126,7 +132,7 @@ export function handleApprovalForAll(event: ApprovalForAll): void {
 		blockId,
 		txHash,
 		event.transaction.from,
-		event.transaction.gasUsed,
+		event.transaction.gasLimit,
 		event.transaction.gasPrice,
 	)
 	meta.save()
@@ -140,7 +146,7 @@ export function handleApprovalForAll(event: ApprovalForAll): void {
 	let operator = accounts.getOrCreateAccount(operatorAddress)
 	operator.save()
 
-	let operatorOwner = accounts.getOrCreateOperatorOwner(owner.id, operator.id, event.params._approved)
+	let operatorOwner = accounts.getOrCreateOperatorOwner(owner.id, operator.id, event.params.approved)
 	operatorOwner.save()
 
 }

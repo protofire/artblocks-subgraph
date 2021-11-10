@@ -34,7 +34,7 @@ type TransactionMeta implements Metadata @entity {
 	from: Bytes
 
 	"Transaction's gas"
-    gasUsed: BigInt
+    gasLimit: BigInt
 
 	"Transaction's gas price"
     gasPrice: BigInt
