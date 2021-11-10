@@ -1,8 +1,10 @@
 import { Address, Bytes, BigInt, ethereum } from "@graphprotocol/graph-ts"
 
+
 export namespace tests {
 	export namespace helpers {
-		function getNewParam(name: string, value: ethereum.Value) {
+
+		function getNewParam(name: string, value: ethereum.Value): ethereum.EventParam {
 			return new ethereum.EventParam(name, value)
 		}
 
