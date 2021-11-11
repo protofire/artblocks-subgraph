@@ -34,7 +34,7 @@ type TransactionMeta implements Metadata @entity {
 	from: Bytes
 
 	"Transaction's gas"
-    gasUsed: BigInt
+    gasLimit: BigInt
 
 	"Transaction's gas price"
     gasPrice: BigInt
@@ -66,7 +66,7 @@ type Token implements Erc721Token @entity{
 	owner: Account!
 
 	"Token's related Collection"
-	collection: Collection!
+	collection: Collection
 
 	"Current approval"
 	approval: Account

@@ -5,7 +5,7 @@ import { TransactionMeta } from "../../../generated/schema";
 export namespace transactionsMeta {
 	export function getOrCreateTransactionMeta(
 		id: string, blockId: string, hash: Bytes,
-		from: Bytes, gasUsed: BigInt, gasPrice: BigInt
+		from: Bytes, gasLimit: BigInt, gasPrice: BigInt
 	): TransactionMeta {
 		let meta = TransactionMeta.load(id)
 		if (meta == null) {
@@ -13,7 +13,7 @@ export namespace transactionsMeta {
 			meta.block = blockId
 			meta.hash = hash
 			meta.from = from
-			meta.gasUsed = gasUsed
+			meta.gasLimit = gasLimit
 			meta.gasPrice = gasPrice
 		}
 		return meta as TransactionMeta

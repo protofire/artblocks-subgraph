@@ -1,6 +1,7 @@
 export * from "./accounts"
 export * from "./blocks"
 export * from "./collections"
+export * from "./tests"
 export * from "./transactions"
 export * from "./transactionsMeta"
 export * from "./tokens"
