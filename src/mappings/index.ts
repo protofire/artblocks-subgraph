@@ -50,7 +50,7 @@ export function handleMint(event: Mint): void {
 
 
 export function handleTest(event: Transfer): void {
-	let token = tokens.mintToken(event.params.tokenId.toString(), event.params.to.toString())
+	let token = tokens.getOrCreateToken(event.params.tokenId.toString(), event.params.to.toString())
 	token.save()
 }
 
