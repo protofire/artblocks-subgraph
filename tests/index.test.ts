@@ -1,5 +1,5 @@
-import { Address, BigInt, ethereum } from "@graphprotocol/graph-ts"
-import { clearStore, test, assert, newMockEvent, log } from "matchstick-as/assembly/index"
+import { Address, BigInt } from "@graphprotocol/graph-ts"
+import { clearStore, test, assert } from "matchstick-as/assembly/index"
 import { Transfer } from "../generated/artblocks/artblocks"
 import { handleTest } from "../src/mappings"
 import { tests as testsModule } from "../src/modules"
@@ -7,20 +7,20 @@ import { tests as testsModule } from "../src/modules"
 
 test("MyTest",
 	() => {
+		let from = new Address(5)
+		let to = new Address(6)
+		let tokenId = new BigInt(666)
 
-		let addressTo = new Address(6)
-		let bigIntTokenId = new BigInt(666)
-		let from = testsModule.helpers.params.getAddress("from", new Address(5))
-		let to = testsModule.helpers.params.getAddress("to", addressTo)
-		let tokenId = testsModule.helpers.params.getBigInt("tokenId", bigIntTokenId)
-
-		let event = testsModule.helpers.events.addParamsToEvent(
-			[from, to, tokenId],
-			newMockEvent() as ethereum.Event
-		) as Transfer
+		let event = changetype<Transfer>(testsModule.helpers.events.getNewEvent(
+			[
+				testsModule.helpers.params.getAddress("from", from),
+				testsModule.helpers.params.getAddress("to", to),
+				testsModule.helpers.params.getBigInt("tokenId", tokenId)
+			]
+		))
 
 		handleTest(event)
 
-		assert.fieldEquals("token", bigIntTokenId.toString(), "owner", addressTo.toString())
+		assert.fieldEquals("token", tokenId.toString(), "owner", to.toString())
 	}
 )

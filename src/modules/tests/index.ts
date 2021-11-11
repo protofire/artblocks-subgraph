@@ -1,4 +1,5 @@
 import { Address, Bytes, BigInt, ethereum } from "@graphprotocol/graph-ts"
+import { newMockEvent } from "matchstick-as"
 
 
 export namespace tests {
@@ -9,8 +10,8 @@ export namespace tests {
 		}
 
 		export namespace events {
-			export function addParamsToEvent(params: ethereum.EventParam[], e: ethereum.Event): ethereum.Event {
-				let event = e
+			export function getNewEvent(params: ethereum.EventParam[]): ethereum.Event {
+				let event = newMockEvent() as ethereum.Event
 				event.parameters = []
 				for (let index = 0; index < params.length; index++) {
 					event.parameters.push(params[index])
