@@ -80,7 +80,7 @@ type Collection @entity {
 	id: ID!
 
 	"Tokens minted for this collection"
-	tokens: [Token!]! @derivedFrom(field: "collection")
+	tokens: [Token!] @derivedFrom(field: "collection")
 }
 
 "A 721 holder account"

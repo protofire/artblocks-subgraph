@@ -43,7 +43,6 @@ export function handleMint(event: Mint): void {
 	collection.save()
 
 	let token = tokens.addCollection(tokenId, collectionId, to)
-	token.owner = to
 	token.save()
 
 }
