@@ -55,7 +55,7 @@ interface Erc721Token {
 	burned: Boolean
 
 	"Token's related Collection"
-	collection: Collection!
+	collection: Collection
 }
 
 type Token implements Erc721Token @entity{
