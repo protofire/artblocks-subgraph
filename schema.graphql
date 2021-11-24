@@ -55,7 +55,7 @@ interface Erc721Token {
 	burned: Boolean
 
 	"Token's related Collection"
-	collection: Collection!
+	collection: Collection
 }
 
 type Token implements Erc721Token @entity{
@@ -80,7 +80,7 @@ type Collection @entity {
 	id: ID!
 
 	"Tokens minted for this collection"
-	tokens: [Token!]! @derivedFrom(field: "collection")
+	tokens: [Token!] @derivedFrom(field: "collection")
 }
 
 "A 721 holder account"

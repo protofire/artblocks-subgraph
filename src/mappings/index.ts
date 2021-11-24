@@ -42,15 +42,14 @@ export function handleMint(event: Mint): void {
 	let collection = collections.getOrCreateCollection(collectionId)
 	collection.save()
 
-	let token = tokens.addCollection(tokenId, collectionId)
-	token.owner = to
+	let token = tokens.addCollection(tokenId, collectionId, to)
 	token.save()
 
 }
 
 
 export function handleTest(event: Transfer): void {
-	let token = tokens.getOrCreateToken(event.params.tokenId.toString(), event.params.to.toString())
+	let token = tokens.getOrCreateToken(event.params.tokenId.toHexString(), event.params.to.toHexString())
 	token.save()
 }
 
