@@ -1,15 +1,20 @@
 import { Address, BigInt } from "@graphprotocol/graph-ts"
-import { clearStore, test, assert } from "matchstick-as/assembly/index"
+import { clearStore, test, assert, newMockEvent } from "matchstick-as/assembly/index"
 import { Transfer } from "../generated/artblocks/artblocks"
 import { handleTest } from "../src/mappings"
 import { tests as testsModule } from "../src/modules"
 
+test("always pass", () => {
+	let tru = true
+	assert.assertTrue(tru)
+	// clearStore()
+})
 
-test("MyTest",
+test("testing matschtick",
 	() => {
-		let from = new Address(5)
-		let to = new Address(6)
-		let tokenId = new BigInt(666)
+		let from = Address.fromString("0x9b9cc10852f215bcea3e684ef584eb2b7c24b8f7") // this works
+		let to = Address.fromString("0x7b7cc10852f215bcea3e684ef584eb2b7c24b8f7")
+		let tokenId = BigInt.fromI32(666)
 
 		let event = changetype<Transfer>(testsModule.helpers.events.getNewEvent(
 			[
@@ -18,9 +23,8 @@ test("MyTest",
 				testsModule.helpers.params.getBigInt("tokenId", tokenId)
 			]
 		))
-
 		handleTest(event)
-
-		assert.fieldEquals("token", tokenId.toString(), "owner", to.toString())
+		assert.fieldEquals("Token", tokenId.toHexString(), "owner", to.toHexString())
+		clearStore()
 	}
 )

@@ -11,8 +11,8 @@ export namespace tests {
 
 		export namespace events {
 			export function getNewEvent(params: ethereum.EventParam[]): ethereum.Event {
-				let event = newMockEvent() as ethereum.Event
-				event.parameters = []
+				let event = newMockEvent()
+				event.parameters = new Array()
 				for (let index = 0; index < params.length; index++) {
 					event.parameters.push(params[index])
 				}
