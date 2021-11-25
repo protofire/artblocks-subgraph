@@ -46,7 +46,7 @@ export namespace tokens {
 
 
 	export function changeOwner(tokenId: string, owner: string): Token {
-		let token = loadToken(tokenId)
+		let token = getOrCreateToken(tokenId, owner)
 		token.owner = owner
 		return token as Token
 	}
