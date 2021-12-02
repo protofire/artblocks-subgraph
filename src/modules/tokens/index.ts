@@ -52,8 +52,8 @@ export namespace tokens {
 		return token as Token
 	}
 
-	export function addApproval(tokenId: string, approval: string): Token {
-		let token = loadToken(tokenId)
+	export function setApproval(tokenId: string, approval: string, owner: string): Token {
+		let token = getOrCreateToken(tokenId, owner)
 		token.approval = approval
 		return token as Token
 	}

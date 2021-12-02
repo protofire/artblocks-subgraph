@@ -114,7 +114,7 @@ export function handleApproval(event: Approval): void {
 	let owner = accounts.getOrCreateAccount(ownerAddress)
 	owner.save()
 
-	let token = tokens.addApproval(tokenId, approvedAddress.toHex())
+	let token = tokens.setApproval(tokenId, approvedAddress.toHex(), owner.id)
 	token.save()
 }
 
