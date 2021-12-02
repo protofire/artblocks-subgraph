@@ -11,7 +11,7 @@ export namespace transfer {
 		let account = accounts.getOrCreateAccount(to)
 		account.save()
 
-		let token = tokens.mintToken(tokenId, to.toHex())
+		let token = tokens.mintToken(tokenId, account.id)
 		token.save()
 
 		let transaction = transactions.getNewMint(account.id, tokenId, timestamp, blockId)
@@ -24,7 +24,7 @@ export namespace transfer {
 		let account = accounts.getOrCreateAccount(from)
 		account.save()
 
-		let token = tokens.burnToken(tokenId)
+		let token = tokens.burnToken(tokenId, account.id)
 		token.save()
 
 		let transaction = transactions.getNewBurn(account.id, tokenId, timestamp, blockId)

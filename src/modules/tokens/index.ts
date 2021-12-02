@@ -36,9 +36,10 @@ export namespace tokens {
 	}
 
 	export function burnToken(
-		tokenId: string
+		tokenId: string,
+		owner: string
 	): Token {
-		let token = loadToken(tokenId)
+		let token = getOrCreateToken(tokenId, owner)
 		token.burned = true
 		token.owner = ADDRESS_ZERO
 		return token as Token
@@ -46,13 +47,13 @@ export namespace tokens {
 
 
 	export function changeOwner(tokenId: string, owner: string): Token {
-		let token = loadToken(tokenId)
+		let token = getOrCreateToken(tokenId, owner)
 		token.owner = owner
 		return token as Token
 	}
 
-	export function addApproval(tokenId: string, approval: string): Token {
-		let token = loadToken(tokenId)
+	export function setApproval(tokenId: string, approval: string, owner: string): Token {
+		let token = getOrCreateToken(tokenId, owner)
 		token.approval = approval
 		return token as Token
 	}
