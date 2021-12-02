@@ -36,9 +36,10 @@ export namespace tokens {
 	}
 
 	export function burnToken(
-		tokenId: string
+		tokenId: string,
+		owner: string
 	): Token {
-		let token = loadToken(tokenId)
+		let token = getOrCreateToken(tokenId, owner)
 		token.burned = true
 		token.owner = ADDRESS_ZERO
 		return token as Token
